@@ -1,0 +1,58 @@
+C51 COMPILER V9.52.0.0   PWM                                                               12/16/2018 13:17:02 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE PWM
+OBJECT MODULE PLACED IN .\Listings\PWM.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE USER\PWM.c LARGE BROWSE INCDIR(.\USER) DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -PWM.lst) TABS(2) OBJECT(.\Listings\PWM.obj)
+
+line level    source
+
+   1          #include "PWM.h"
+   2          #include "Port.h"
+   3          void PWM1_Duty(unsigned char Duty)
+   4          {
+   5   1        if(Duty==0)
+   6   1            CCAP0H = CCAP0L = 0;
+   7   1        else
+   8   1        {
+   9   2          unsigned char Temp=0xff-(2.55*Duty)/1;
+  10   2          CCAP0H = CCAP0L = Temp;
+  11   2        }
+  12   1      }
+  13          void PWM2_Duty(unsigned char Duty)
+  14          {
+  15   1        if(Duty==0)
+  16   1            CCAP1H = CCAP1L = 0;
+  17   1        else
+  18   1        {
+  19   2          unsigned char Temp=0xff-(2.55*Duty)/1;
+  20   2          CCAP1H = CCAP1L = Temp;
+  21   2        }
+  22   1      }
+  23          void Init_PWM()
+  24          {    
+  25   1          CCON = 0;                       //清除标志位
+  26   1          CL = 0;                         //重置PCA基础时钟
+  27   1          CH = 0;                         //重置PCA基础时钟
+  28   1          CMOD = 0x02;                    //设置时钟频率是主频的二分之一                           
+  29   1          CCAP0H = CCAP0L = 0xff;         //设置PWM0口占空比为100%
+  30   1          CCAPM0 = 0x42;                  //PCA0工作在8位模式，值域为(0x00~0xff)，查询模式
+  31   1          CCAP1H = CCAP1L = 0xff;         //设置PWM1口占空比为100%
+  32   1          CCAPM1 = 0x42;                  //PCA1工作在8位模式，值域为(0x00~0xff)，查询模式
+  33   1          CR = 1;                         //PCA启动
+  34   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    143    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       2
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

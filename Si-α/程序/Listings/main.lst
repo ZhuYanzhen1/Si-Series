@@ -1,0 +1,84 @@
+C51 COMPILER V9.52.0.0   MAIN                                                              12/16/2018 13:17:02 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Listings\main.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c LARGE BROWSE INCDIR(.\USER) DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Listings\main.obj)
+
+line level    source
+
+   1          #include "User_Program.h"
+   2          #include "Startup.h"
+   3          void main()
+   4          {
+   5   1        unsigned char Press_Num=0;
+   6   1        Init_System();
+   7   1        while(1)
+   8   1        {
+   9   2          unsigned int Count_Down=0x6fff;
+  10   2          while(Count_Down--)
+  11   2          {
+  12   3            if(KEY==0)
+  13   3            {
+  14   4              Delayms(20);
+  15   4              if(KEY==0)
+  16   4              {
+  17   5                unsigned long Key_Time=0;
+  18   5                while(!KEY)
+  19   5                {
+  20   6                  Key_Time++;
+  21   6                }
+  22   5                if(Key_Time>100000)
+  23   5                {
+  24   6                  LCD1602_Writecom(0x01);
+  25   6                  User_Program();
+  26   6                  while(1);
+  27   6                }
+  28   5                else
+  29   5                {
+  30   6                  LCD1602_Writecom(0x01);
+  31   6                  Press_Num++;
+  32   6                }
+  33   5              }
+  34   4            }
+  35   3          }
+  36   2          switch(Press_Num)
+  37   2          {
+  38   3            case 0:
+  39   3              Show_Analog(0);
+  40   3              break;
+  41   3            case 1:
+  42   3              Show_Analog(1);
+  43   3              break;
+  44   3            case 2:
+  45   3              Show_Digital(0);
+  46   3              break;
+  47   3            case 3:
+  48   3              Show_Digital(1);
+  49   3              break;
+  50   3            case 4:
+  51   3              Show_Tempreture();
+  52   3              break;
+  53   3            case 5:
+  54   3              Press_Num=0;
+C51 COMPILER V9.52.0.0   MAIN                                                              12/16/2018 13:17:02 PAGE 2   
+
+  55   3              break;
+  56   3          }
+  57   2        }
+  58   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    206    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       7
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

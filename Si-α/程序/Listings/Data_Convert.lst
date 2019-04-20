@@ -1,0 +1,98 @@
+C51 COMPILER V9.52.0.0   DATA_CONVERT                                                      12/16/2018 13:17:05 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE DATA_CONVERT
+OBJECT MODULE PLACED IN .\Listings\Data_Convert.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE USER\Data_Convert.c LARGE BROWSE INCDIR(.\USER) DEBUG OBJECTEXTEND PRINT(.\
+                    -Listings\Data_Convert.lst) TABS(2) OBJECT(.\Listings\Data_Convert.obj)
+
+line level    source
+
+   1          #include "Data_Convert.h"
+   2          unsigned char BinToHex(bit B1,bit B2,bit B3,bit B4,bit B5,bit B6,bit B7,bit B8)
+   3          {
+   4   1        unsigned char back=0,back_high=0;
+   5   1        if(B1==0&&B2==0&&B3==0&&B4==0)
+   6   1          back=0x00;
+   7   1        if(B1==1&&B2==0&&B3==0&&B4==0)
+   8   1          back=0x01;
+   9   1        if(B1==0&&B2==1&&B3==0&&B4==0)
+  10   1          back=0x02;
+  11   1        if(B1==1&&B2==1&&B3==0&&B4==0)
+  12   1          back=0x03;
+  13   1        if(B1==0&&B2==0&&B3==1&&B4==0)
+  14   1          back=0x04;
+  15   1        if(B1==1&&B2==0&&B3==1&&B4==0)
+  16   1          back=0x05;
+  17   1        if(B1==0&&B2==1&&B3==1&&B4==0)
+  18   1          back=0x06;
+  19   1        if(B1==1&&B2==1&&B3==1&&B4==0)
+  20   1          back=0x07;
+  21   1        if(B1==0&&B2==0&&B3==0&&B4==1)
+  22   1          back=0x08;
+  23   1        if(B1==1&&B2==0&&B3==0&&B4==1)
+  24   1          back=0x09;
+  25   1        if(B1==0&&B2==1&&B3==0&&B4==1)
+  26   1          back=0x0a;
+  27   1        if(B1==1&&B2==1&&B3==0&&B4==1)
+  28   1          back=0x0b;
+  29   1        if(B1==0&&B2==0&&B3==1&&B4==1)
+  30   1          back=0x0c;
+  31   1        if(B1==1&&B2==0&&B3==1&&B4==1)
+  32   1          back=0x0d;
+  33   1        if(B1==0&&B2==1&&B3==1&&B4==1)
+  34   1          back=0x0e;
+  35   1        if(B1==1&&B2==1&&B3==1&&B4==1)
+  36   1          back=0x0f;
+  37   1        if(B5==0&&B6==0&&B7==0&&B8==0)
+  38   1          back_high=0x00;
+  39   1        if(B5==1&&B6==0&&B7==0&&B8==0)
+  40   1          back_high=0x01;
+  41   1        if(B5==0&&B6==1&&B7==0&&B8==0)
+  42   1          back_high=0x02;
+  43   1        if(B5==1&&B6==1&&B7==0&&B8==0)
+  44   1          back_high=0x03;
+  45   1        if(B5==0&&B6==0&&B7==1&&B8==0)
+  46   1          back_high=0x04;
+  47   1        if(B5==1&&B6==0&&B7==1&&B8==0)
+  48   1          back_high=0x05;
+  49   1        if(B5==0&&B6==1&&B7==1&&B8==0)
+  50   1          back_high=0x06;
+  51   1        if(B5==1&&B6==1&&B7==1&&B8==0)
+  52   1          back_high=0x07;
+  53   1        if(B5==0&&B6==0&&B7==0&&B8==1)
+  54   1          back_high=0x08;
+C51 COMPILER V9.52.0.0   DATA_CONVERT                                                      12/16/2018 13:17:05 PAGE 2   
+
+  55   1        if(B5==1&&B6==0&&B7==0&&B8==1)
+  56   1          back_high=0x09;
+  57   1        if(B5==0&&B6==1&&B7==0&&B8==1)
+  58   1          back_high=0x0a;
+  59   1        if(B5==1&&B6==1&&B7==0&&B8==1)
+  60   1          back_high=0x0b;
+  61   1        if(B5==0&&B6==0&&B7==1&&B8==1)
+  62   1          back_high=0x0c;
+  63   1        if(B5==1&&B6==0&&B7==1&&B8==1)
+  64   1          back_high=0x0d;
+  65   1        if(B5==0&&B6==1&&B7==1&&B8==1)
+  66   1          back_high=0x0e;
+  67   1        if(B5==1&&B6==1&&B7==1&&B8==1)
+  68   1          back_high=0x0f;
+  69   1        back_high=back_high<<4;
+  70   1        back=back|back_high;
+  71   1        return back;
+  72   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    444    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       8
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

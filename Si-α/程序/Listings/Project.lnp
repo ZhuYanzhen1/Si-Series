@@ -1,0 +1,15 @@
+".\Listings\main.obj",
+".\Listings\PWM.obj",
+".\Listings\Serial.obj",
+".\Listings\LCD1602.obj",
+".\Listings\AnalogToDigital.obj",
+".\Listings\DS18B20.obj",
+".\Listings\74HC573.obj",
+".\Listings\System_Config.obj",
+".\Listings\User_Program.obj",
+".\Listings\Data_Convert.obj",
+".\Listings\Startup.obj",
+".\Listings\STC12_IT.obj",
+".\Listings\EEPROM.obj" 
+TO ".\Listings\Project" 
+PRINT(".\Listings\Project.m51") RAMSIZE(256) 

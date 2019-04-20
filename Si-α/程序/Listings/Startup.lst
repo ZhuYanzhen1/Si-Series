@@ -1,0 +1,75 @@
+C51 COMPILER V9.52.0.0   STARTUP                                                           12/16/2018 13:17:05 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE STARTUP
+OBJECT MODULE PLACED IN .\Listings\Startup.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE USER\Startup.c LARGE BROWSE INCDIR(.\USER) DEBUG OBJECTEXTEND PRINT(.\Listi
+                    -ngs\Startup.lst) TABS(2) OBJECT(.\Listings\Startup.obj)
+
+line level    source
+
+   1          #include "Startup.h"
+   2          #include "User_Program.h"
+   3          void Init_System(void)
+   4          {
+   5   1        Digital1=1;
+   6   1        Digital2=1;
+   7   1        Digital3=1;
+   8   1        Digital4=1;
+   9   1        Digital5=1;
+  10   1        Digital6=1;
+  11   1        Digital7=1;
+  12   1        Digital8=1;
+  13   1        Beep_Off;
+  14   1        Delayus(100);
+  15   1        EepromWriteByte(0X00,0X51);
+  16   1        EepromReadByte(0x00);
+  17   1        EepromWriteByte(0X00,0X00);
+  18   1        P4M1=0x00;//P4.1 P4.4 P4.5 P4.6??
+  19   1        P4M0=0x72;  
+  20   1        P4SW=0x70;//P4.4=I/O P4.5=I/O P4.6=I/O  
+  21   1        P0M1 = BinToHex(0,0,0,0,0,0,0,0);
+  22   1        P0M0 = BinToHex(0,0,0,0,0,0,0,0);
+  23   1        P1M1 = BinToHex(1,1,1,0,0,1,1,1);
+  24   1        P1M0 = BinToHex(0,0,0,0,0,0,0,0);
+  25   1        P2M1 = BinToHex(0,0,0,0,0,0,0,0);
+  26   1        P2M0 = BinToHex(0,0,0,0,0,0,0,0);
+  27   1        P3M1 = BinToHex(0,0,0,0,0,0,0,0);
+  28   1        P3M0 = BinToHex(0,0,0,0,0,0,0,0);
+  29   1        Serial_Init();
+  30   1        printf("Initing......");
+  31   1        LCD1602_Init();
+  32   1        InitADC();
+  33   1        Init_PWM();
+  34   1        PWM1_Duty(50);
+  35   1        PWM2_Duty(90);
+  36   1        Set_Pin(1,0);
+  37   1        P0=0xff;
+  38   1        HC573_LE=1;
+  39   1        Delayms(1);
+  40   1        HC573_LE=0;
+  41   1        LCD1602_Writedat('a');
+  42   1        LCD1602_SendString("Hello");
+  43   1        LCD1602_Writecom(0x01);
+  44   1        Get_AD_Result(1);
+  45   1        Get_Temp();
+  46   1        Beep_On;
+  47   1        Delayms(300);
+  48   1        Beep_Off;
+  49   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    311    ----
+   CONSTANT SIZE    =     20    ----
+C51 COMPILER V9.52.0.0   STARTUP                                                           12/16/2018 13:17:05 PAGE 2   
+
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

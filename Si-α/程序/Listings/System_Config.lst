@@ -1,0 +1,165 @@
+C51 COMPILER V9.52.0.0   SYSTEM_CONFIG                                                     12/16/2018 13:17:04 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE SYSTEM_CONFIG
+OBJECT MODULE PLACED IN .\Listings\System_Config.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE USER\System_Config.c LARGE BROWSE INCDIR(.\USER) DEBUG OBJECTEXTEND PRINT(.
+                    -\Listings\System_Config.lst) TABS(2) OBJECT(.\Listings\System_Config.obj)
+
+line level    source
+
+   1          #include "System_Config.h"
+   2          #include "User_Program.h"
+   3          void Delayms(unsigned int xms)
+   4          {
+   5   1        while(xms--)
+   6   1        {
+   7   2          unsigned char i, j;
+   8   2          _nop_();
+   9   2          i = 3;
+  10   2          j = 190;
+  11   2          do
+  12   2          {
+  13   3            while (--j);
+  14   3          } while (--i);
+  15   2        }
+  16   1      }
+  17          void Delayus(unsigned int xus)
+  18          {
+  19   1        while(xus--)
+  20   1          _nop_();
+  21   1      }
+  22          void Show_Analog(bit LE)
+  23          {
+  24   1        if(LE==0)
+  25   1        {
+  26   2          unsigned int A1 = Get_AD_Result(1);
+  27   2          unsigned int A2 = Get_AD_Result(2);
+  28   2          unsigned int A3 = Get_AD_Result(3);
+  29   2          unsigned int A4 = Get_AD_Result(4);
+  30   2          unsigned char code Table[]="0123456789";
+  31   2          LCD1602_Writecom(0x80);
+  32   2          LCD1602_SendString("A1:");
+  33   2          LCD1602_Writedat(Table[A1/1000]);
+  34   2          LCD1602_Writedat(Table[A1%1000/100]);
+  35   2          LCD1602_Writedat(Table[A1%100/10]);
+  36   2          LCD1602_Writedat(Table[A1%10]);
+  37   2          LCD1602_SendString("  A2:");
+  38   2          LCD1602_Writedat(Table[A2/1000]);
+  39   2          LCD1602_Writedat(Table[A2%1000/100]);
+  40   2          LCD1602_Writedat(Table[A2%100/10]);
+  41   2          LCD1602_Writedat(Table[A2%10]);
+  42   2          LCD1602_Writecom(0x80+0x40);
+  43   2          LCD1602_SendString("A3:");
+  44   2          LCD1602_Writedat(Table[A3/1000]);
+  45   2          LCD1602_Writedat(Table[A3%1000/100]);
+  46   2          LCD1602_Writedat(Table[A3%100/10]);
+  47   2          LCD1602_Writedat(Table[A3%10]);
+  48   2          LCD1602_SendString("  A4:");
+  49   2          LCD1602_Writedat(Table[A4/1000]);
+  50   2          LCD1602_Writedat(Table[A4%1000/100]);
+  51   2          LCD1602_Writedat(Table[A4%100/10]);
+  52   2          LCD1602_Writedat(Table[A4%10]);
+  53   2        }
+  54   1        else
+C51 COMPILER V9.52.0.0   SYSTEM_CONFIG                                                     12/16/2018 13:17:04 PAGE 2   
+
+  55   1        {
+  56   2          unsigned int A5 = Get_AD_Result(5);
+  57   2          unsigned int A6 = Get_AD_Result(6);
+  58   2          unsigned char code Table[]="0123456789";
+  59   2          LCD1602_Writecom(0x80);
+  60   2          LCD1602_SendString("A5:");
+  61   2          LCD1602_Writedat(Table[A5/1000]);
+  62   2          LCD1602_Writedat(Table[A5%1000/100]);
+  63   2          LCD1602_Writedat(Table[A5%100/10]);
+  64   2          LCD1602_Writedat(Table[A5%10]);
+  65   2          LCD1602_SendString("  A6:");
+  66   2          LCD1602_Writedat(Table[A6/1000]);
+  67   2          LCD1602_Writedat(Table[A6%1000/100]);
+  68   2          LCD1602_Writedat(Table[A6%100/10]);
+  69   2          LCD1602_Writedat(Table[A6%10]);
+  70   2        }
+  71   1      }
+  72          void Show_Digital(bit LE)
+  73          {
+  74   1        if(LE==0)
+  75   1        {
+  76   2        LCD1602_Writecom(0x80);
+  77   2        LCD1602_SendString("D1:");
+  78   2        if(Digital1==1)
+  79   2          LCD1602_Writedat('1');
+  80   2        else
+  81   2          LCD1602_Writedat('0');
+  82   2        LCD1602_SendString(" D2:");
+  83   2        if(Digital2==1)
+  84   2          LCD1602_Writedat('1');
+  85   2        else
+  86   2          LCD1602_Writedat('0');
+  87   2        LCD1602_SendString(" D3:");
+  88   2        if(Digital3==1)
+  89   2          LCD1602_Writedat('1');
+  90   2        else
+  91   2          LCD1602_Writedat('0');
+  92   2        LCD1602_Writecom(0x80+0x40);
+  93   2        LCD1602_SendString("D4:");
+  94   2        if(Digital4==1)
+  95   2          LCD1602_Writedat('1');
+  96   2        else
+  97   2          LCD1602_Writedat('0');
+  98   2        LCD1602_SendString(" D5:");
+  99   2        if(Digital5==1)
+ 100   2          LCD1602_Writedat('1');
+ 101   2        else
+ 102   2          LCD1602_Writedat('0');
+ 103   2        LCD1602_SendString(" D6:");
+ 104   2        if(Digital6==1)
+ 105   2          LCD1602_Writedat('1');
+ 106   2        else
+ 107   2          LCD1602_Writedat('0');
+ 108   2        }
+ 109   1        else
+ 110   1        {
+ 111   2          LCD1602_Writecom(0x80);
+ 112   2          LCD1602_SendString("D7:");
+ 113   2          if(Digital7==1)
+ 114   2            LCD1602_Writedat('1');
+ 115   2          else
+ 116   2            LCD1602_Writedat('0');
+C51 COMPILER V9.52.0.0   SYSTEM_CONFIG                                                     12/16/2018 13:17:04 PAGE 3   
+
+ 117   2          LCD1602_SendString(" D8:");
+ 118   2          if(Digital8==1)
+ 119   2            LCD1602_Writedat('1');
+ 120   2          else
+ 121   2            LCD1602_Writedat('0');
+ 122   2        }
+ 123   1      }
+ 124          void Show_Tempreture(void)
+ 125          {
+ 126   1        unsigned int Temp = Get_Temp();
+ 127   1        unsigned char code Table[]="0123456789";
+ 128   1        LCD1602_Writecom(0x80);
+ 129   1        LCD1602_SendString("Temperature:");
+ 130   1        LCD1602_Writecom(0x80+0x40);
+ 131   1        LCD1602_Writedat(Table[Temp/100]);
+ 132   1        LCD1602_Writedat(Table[Temp%100/10]);
+ 133   1        LCD1602_Writedat('.');
+ 134   1        LCD1602_Writedat(Table[Temp%10]);
+ 135   1        LCD1602_Writedat(0xdf);
+ 136   1        LCD1602_Writedat('C');
+ 137   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1436    ----
+   CONSTANT SIZE    =    113    ----
+   XDATA SIZE       =   ----      12
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       2
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

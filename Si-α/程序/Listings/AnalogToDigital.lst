@@ -1,0 +1,76 @@
+C51 COMPILER V9.52.0.0   ANALOGTODIGITAL                                                   12/16/2018 13:17:03 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE ANALOGTODIGITAL
+OBJECT MODULE PLACED IN .\Listings\AnalogToDigital.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE USER\AnalogToDigital.c LARGE BROWSE INCDIR(.\USER) DEBUG OBJECTEXTEND PRINT
+                    -(.\Listings\AnalogToDigital.lst) TABS(2) OBJECT(.\Listings\AnalogToDigital.obj)
+
+line level    source
+
+   1          #include "Port.h"
+   2          #include "AnalogToDigital.h"
+   3          sfr ADC_LOW2 = 0xBE; 
+   4          #define ADC_POWER   0x80            //ADC power control bit
+   5          #define ADC_FLAG    0x10            //ADC complete flag
+   6          #define ADC_START   0x08            //ADC start control bit
+   7          #define ADC_SPEEDLL 0x00            //420 clocks
+   8          #define ADC_SPEEDHH 0x60            //70 clocks
+   9          unsigned int Get_AD(unsigned char ch);
+  10          unsigned int Get_AD_Result(unsigned char chunnel)
+  11          {
+  12   1        unsigned int Result = 0x00;
+  13   1        switch(chunnel)
+  14   1        {
+  15   2          case 1:
+  16   2            Result = Get_AD(0);
+  17   2            break;
+  18   2          case 2:
+  19   2            Result = Get_AD(1);
+  20   2            break;
+  21   2          case 3:
+  22   2            Result = Get_AD(2);
+  23   2            break;
+  24   2          case 4:
+  25   2            Result = Get_AD(5);
+  26   2            break;
+  27   2          case 5:
+  28   2            Result = Get_AD(6);
+  29   2            break;
+  30   2          case 6:
+  31   2            Result = Get_AD(7);
+  32   2            break;
+  33   2        }
+  34   1        return Result;
+  35   1      }
+  36          unsigned int Get_AD(unsigned char ch)
+  37          {
+  38   1          ADC_CONTR = ADC_POWER | ADC_SPEEDHH | ch | ADC_START;
+  39   1          _nop_();_nop_();_nop_();_nop_();
+  40   1          while (!(ADC_CONTR & ADC_FLAG));//Wait complete flag
+  41   1          ADC_CONTR &= ~ADC_FLAG;         //Close ADC
+  42   1          return (unsigned int)((ADC_RES<<2)|ADC_LOW2);                 //Return ADC result
+  43   1      }
+  44          void InitADC()
+  45          {
+  46   1          P1ASF = 0xe7;            
+  47   1          ADC_RES = 0;               
+  48   1          ADC_CONTR = ADC_POWER | ADC_SPEEDLL;
+  49   1          //Delay(2);                    
+  50   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    101    ----
+C51 COMPILER V9.52.0.0   ANALOGTODIGITAL                                                   12/16/2018 13:17:03 PAGE 2   
+
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,114 @@
+C51 COMPILER V9.52.0.0   EEPROM                                                            12/16/2018 13:17:06 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE EEPROM
+OBJECT MODULE PLACED IN .\Listings\EEPROM.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE USER\EEPROM.c LARGE BROWSE INCDIR(.\USER) DEBUG OBJECTEXTEND PRINT(.\Listin
+                    -gs\EEPROM.lst) TABS(2) OBJECT(.\Listings\EEPROM.obj)
+
+line level    source
+
+   1          #include "intrins.h"
+   2          #include "EEPROM.h"
+   3          #include "STC12.h"
+   4          
+   5          #define   CMD_IDLE      0                 //Stand-By
+   6          #define   CMD_READ      1                 //Byte-Read
+   7          #define   CMD_PROGRAM   2                 //Byte-Program
+   8          #define   CMD_ERASE     3                 //Sector-Erase
+   9          #define   ENABLE_IAP    0x82              //if SYSCLK<20MHz
+  10          #define   IAP_ADDRESS   0x0000
+  11          #define      USING_CHAR_NUM   40
+  12          
+  13          void IapIdle();
+  14          unsigned char IapReadunsigned (unsigned int addr);
+  15          void IapProgramunsigned(unsigned int addr, unsigned char dat);
+  16          void IapEraseSector(unsigned int addr);
+  17          
+  18          unsigned char EepromReadByte(unsigned char addr)
+  19          {
+  20   1          return(IapReadunsigned(addr));
+  21   1      }
+  22          
+  23          void EepromWriteByte(unsigned char addr, unsigned char dat)
+  24          {
+  25   1          unsigned char eepromBUF[USING_CHAR_NUM];
+  26   1          unsigned char i;
+  27   1          for(i=0; i< USING_CHAR_NUM; i++)
+  28   1          {
+  29   2              eepromBUF[IAP_ADDRESS+i] = IapReadunsigned(IAP_ADDRESS+i);   
+  30   2          }
+  31   1          if(addr < USING_CHAR_NUM)
+  32   1          {
+  33   2              eepromBUF[IAP_ADDRESS+addr] = dat;
+  34   2              IapEraseSector(IAP_ADDRESS);
+  35   2      
+  36   2              for(i=0; i< USING_CHAR_NUM; i++)
+  37   2              {
+  38   3                  IapProgramunsigned(IAP_ADDRESS+i, eepromBUF[IAP_ADDRESS+i]);   
+  39   3              }
+  40   2          }
+  41   1      }
+  42          void IapIdle()
+  43          {
+  44   1            IAP_CONTR = 0;      //Close IAP function
+  45   1            IAP_CMD = 0;            //Clear command to standby
+  46   1            IAP_TRIG = 0;                      //Clear trigger register
+  47   1            IAP_ADDRH = 0x80;                 //Data ptr point to non-EEPROM area
+  48   1            IAP_ADDRL = 0;                     //Clear IAP address to prevent misuse
+  49   1      }
+  50          
+  51          unsigned char IapReadunsigned(unsigned int addr)
+  52          {
+  53   1            unsigned char dat;                          //Data buffer
+  54   1            IAP_CONTR = ENABLE_IAP;   //Open IAP function, and set wait time
+C51 COMPILER V9.52.0.0   EEPROM                                                            12/16/2018 13:17:06 PAGE 2   
+
+  55   1            IAP_CMD = CMD_READ;        //Set ISP/IAP/EEPROM READ command
+  56   1            IAP_ADDRL = addr;                 //Set ISP/IAP/EEPROM address low
+  57   1            IAP_ADDRH = addr >> 8;      //Set ISP/IAP/EEPROM address high
+  58   1            IAP_TRIG = 0x5a;                //Send trigger command1 (0x5a)
+  59   1            IAP_TRIG = 0xa5;                  //Send trigger command2 (0xa5)
+  60   1            _nop_();  _nop_();                          //MCU will hold here until ISP/IAP/EEPROM
+  61   1            dat = IAP_DATA;            //Read ISP/IAP/EEPROM data
+  62   1            IapIdle();                         //Close ISP/IAP/EEPROM function
+  63   1            return dat;                        //Return Flash data
+  64   1      }
+  65          
+  66          void IapProgramunsigned(unsigned int addr, unsigned char dat)
+  67          {
+  68   1            IAP_CONTR = ENABLE_IAP;         //Open IAP function, and set wait time
+  69   1            IAP_CMD = CMD_PROGRAM;     //Set ISP/IAP/EEPROM PROGRAM command
+  70   1            IAP_ADDRL = addr;                 //Set ISP/IAP/EEPROM address low
+  71   1            IAP_ADDRH = addr >> 8;            //Set ISP/IAP/EEPROM address high
+  72   1            IAP_DATA = dat;                  //Write ISP/IAP/EEPROM data
+  73   1            IAP_TRIG = 0x5a;                   //Send trigger command1 (0x5a)
+  74   1            IAP_TRIG = 0xa5;                   //Send trigger command2 (0xa5)
+  75   1            _nop_();   _nop_();                        //MCU will hold here until ISP/IAP/EEPROM
+  76   1            IapIdle();
+  77   1      }
+  78          void IapEraseSector(unsigned int addr)
+  79          {
+  80   1            IAP_CONTR = ENABLE_IAP;  //Open IAP function, and set wait time
+  81   1            IAP_CMD = CMD_ERASE;      //Set ISP/IAP/EEPROM ERASE command
+  82   1            IAP_ADDRL = addr;                //Set ISP/IAP/EEPROM address low
+  83   1            IAP_ADDRH = addr >> 8;         //Set ISP/IAP/EEPROM address high
+  84   1            IAP_TRIG = 0x5a;                   //Send trigger command1 (0x5a)
+  85   1            IAP_TRIG = 0xa5;                   //Send trigger command2 (0xa5)
+  86   1            _nop_();  _nop_();                         //MCU will hold here until ISP/IAP/EEPROM
+  87   1            IapIdle();
+  88   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    213    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      43
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
